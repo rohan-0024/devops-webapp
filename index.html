@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CloudTech Solutions</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+    header { background:#1a237e; color:#fff; padding:20px 40px; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { font-size:24px; }
+    nav a { color:#fff; margin-left:25px; text-decoration:none; font-size:15px; }
+    .hero { background:linear-gradient(135deg,#3949ab,#1a237e); color:#fff; text-align:center; padding:80px 20px; }
+    .hero h2 { font-size:38px; margin-bottom:15px; }
+    .hero p { font-size:18px; opacity:0.9; margin-top:8px; }
+    .btn { display:inline-block; margin-top:25px; padding:12px 30px; background:#ffca28; color:#1a237e; font-weight:bold; border-radius:5px; text-decoration:none; }
+    section { padding:60px 40px; max-width:1000px; margin:auto; }
+    .services { display:flex; gap:25px; flex-wrap:wrap; justify-content:center; }
+    .card { background:#f5f5f5; padding:25px; border-radius:8px; width:260px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    .card h3 { color:#1a237e; margin-bottom:10px; }
+    footer { background:#1a237e; color:#fff; text-align:center; padding:20px; margin-top:40px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>CloudTech Solutions</h1>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h2>Deployed via CI/CD Pipeline</h2>
+    <p>Jenkins + Docker + Kubernetes on AWS</p>
+    <p>Version: APP_VERSION</p>
+    <a href="#services" class="btn">Explore Services</a>
+  </div>
+
+  <section id="services">
+    <h2 style="text-align:center; margin-bottom:30px; color:#1a237e;">Our Services</h2>
+    <div class="services">
+      <div class="card">
+        <h3>Cloud Infrastructure</h3>
+        <p>Provisioned automatically using Terraform on AWS EC2.</p>
+      </div>
+      <div class="card">
+        <h3>Automated Configuration</h3>
+        <p>Server setup and deployment handled by Ansible playbooks.</p>
+      </div>
+      <div class="card">
+        <h3>Monitoring & Alerts</h3>
+        <p>Integrated with Amazon CloudWatch for real-time insights.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2 style="color:#1a237e;">About This Deployment</h2>
+    <p style="margin-top:15px; line-height:1.6;">
+      This website is built, containerized, and deployed automatically using a Jenkins
+      CI/CD pipeline — Docker packages the app, and Kubernetes runs it on AWS EC2,
+      demonstrating a complete DevOps workflow from code to production.
+    </p>
+  </section>
+
+  <footer id="contact">
+    <p>&copy; 2026 CloudTech Solutions | AWS DevOps Lab Project</p>
+  </footer>
+
+</body>
+</html>
