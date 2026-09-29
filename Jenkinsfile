@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    IMAGE      = "DOCKERUSER/webapp"
+    IMAGE      = "roha_nnnn/webapp"
     KUBECONFIG = "/home/ec2-user/.kube/config"
   }
   stages {
