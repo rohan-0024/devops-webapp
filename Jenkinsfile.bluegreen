@@ -1,0 +1,46 @@
+pipeline {
+  agent any
+  parameters {
+    choice(name: 'TARGET', choices: ['blue', 'green'], description: 'Which version to build & release')
+  }
+  environment {
+    IMAGE      = "rohannn004/webapp"
+    KUBECONFIG = "/home/ec2-user/.kube/config"
+  }
+  stages {
+    stage('Checkout') {
+      steps { checkout scm }
+    }
+    stage('Build & Push') {
+      steps {
+        script {
+          def color = (params.TARGET == 'blue') ? '#1565c0' : '#2e7d32'
+          sh "sed -i 's/APP_VERSION/${params.TARGET.toUpperCase()} - Build ${BUILD_NUMBER}/; s/APP_COLOR/${color}/' index.html"
+        }
+        sh "docker build -t $IMAGE:${params.TARGET} ."
+        withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'U', passwordVariable: 'P')]) {
+          sh 'echo $P | docker login -u $U --password-stdin'
+          sh "docker push $IMAGE:${params.TARGET}"
+        }
+      }
+    }
+    stage('Deploy Idle Version') {
+      steps {
+        sh "kubectl apply -f k8s/blue-green.yaml"
+        sh "kubectl set image deployment/app-${params.TARGET} app=$IMAGE:${params.TARGET}"
+        sh "kubectl rollout restart deployment/app-${params.TARGET}"
+        sh "kubectl rollout status deployment/app-${params.TARGET} --timeout=120s"
+      }
+    }
+    stage('Approve Switch') {
+      steps {
+        input message: "Deployed ${params.TARGET}. Switch live traffic to it?"
+      }
+    }
+    stage('Switch Traffic') {
+      steps {
+        sh """kubectl patch service shop-svc -p '{"spec":{"selector":{"app":"shop","version":"${params.TARGET}"}}}'"""
+      }
+    }
+  }
+}
